@@ -25,5 +25,13 @@ public class Product
     private Status status;
 
 
+    public Product(String name,Integer price,String created, String updated, Status status)
+    {
+        this.name = name;
+        this.price = price;
+        this.created = created;
+        this.updated = updated;
+        this.status = status;
+    }
 
 }
