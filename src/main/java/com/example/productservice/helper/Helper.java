@@ -56,19 +56,16 @@ public class Helper
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());
 
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             out.println("failed to import data in excel");
             return null;
-        } finally {
+        }
+        finally {
 
             workbook.close();
             out.close();
-
-
         }
-
-
-
     }
 }

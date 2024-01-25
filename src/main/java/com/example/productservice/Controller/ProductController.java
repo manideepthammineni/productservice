@@ -1,6 +1,7 @@
 package com.example.productservice.Controller;
 
 import com.example.productservice.ExcelService;
+//import com.example.productservice.Service.Producer;
 import com.example.productservice.Service.ProductService;
 import com.example.productservice.dto.APIResponse;
 
@@ -9,11 +10,18 @@ import com.example.productservice.dto.SelectedProductsData;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 
@@ -23,6 +31,8 @@ public class ProductController
 {
     @Autowired
     private ProductService productservice;
+    /*@Autowired
+    Producer producer;*/
 
     @Autowired
     private ExcelService excelService;
@@ -32,7 +42,23 @@ public class ProductController
     {
         return productservice.addProduct(productRequest);
 
+
     }
+    @GetMapping("/calculate")
+    @Cacheable(value = "calculate",key = " 'calculate'")
+    public String calculateResult(@RequestParam("input") String input)
+    {
+        try
+        {
+            Thread.sleep(2000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        return "billion dollar company " + input;
+    }
+
     @GetMapping()
     public APIResponse getProducts()
     {
@@ -76,6 +102,12 @@ public class ProductController
                 .body(file);
 
               return body;
+    }
+
+@GetMapping("/producerMessage")
+    public void getMessageFromClient(@RequestParam("message") String message)
+    {
+        //producer.sendMessageToTopic(message);
     }
 
 }

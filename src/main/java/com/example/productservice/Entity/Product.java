@@ -15,7 +15,7 @@ import lombok.NonNull;
 public class Product
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private Integer price;
